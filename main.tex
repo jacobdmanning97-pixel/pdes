@@ -1,0 +1,391 @@
+\documentclass{beamer}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Do not change the next few lines. 
+\usepackage{amsmath,amssymb,bigints,amsthm,mathrsfs,mathtools,biblatex,xcolor}
+
+\addbibresource{bib.bib}
+
+\newcommand{\singleslidebig}[1]{\begin{frame}
+\begin{center}
+\textcolor{red}{\Huge{#1}}
+\end{center}
+\end{frame}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usetheme{Warsaw}
+
+\newtheorem{thrm}{Theorem}
+\newtheorem{cor}{Corollary}
+\newtheorem{lmma}{Lemma}
+\newtheorem{define}{Definition}
+\newtheorem{prop}{Proposition}
+\newtheorem{nte}{Remark}
+\newtheorem{pf}{Proof}
+\newtheorem{ex}{Example}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\D}{\mathscr{D}}
+\newcommand{\E}{\mathscr{E}}
+\newcommand{\Sch}{\mathcal{S}}
+\newcommand{\Lin}{\mathscr{L}}
+\newcommand{\Om}{\Omega}
+\newcommand{\W}[2]{W^{#1}(#2)}
+\newcommand{\WO}[2]{W_0^{#1}(#2)}
+\newcommand{\HM}[2]{H^{#1}(#2)}
+\newcommand{\LP}[2]{L^{#1}(#2)}
+\newcommand{\set}[2]{\{#1\:|\:#2\}}
+
+
+\setbeamertemplate{enumerate items}[default]
+\definecolor{myor}{RGB}{245,102,0}
+\definecolor{mypur}{RGB}{82,45,128}
+
+\setbeamercolor{structure}{fg=myor!90!mypur}
+%\setbeamercolor*{block title example}{fg=white, bg= violet!90}
+%\setbeamercolor*{block body example}{bg= violet!20}
+
+\newtheorem*{model}{\footnotesize{Hodgkin-Huxley Model}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Now Start entering your information.
+\title[$C_0$ Semigroups]{$C_0$ Semigroups}
+\author[Manning]{\textbf{Jacob Manning}}
+\institute[Clemson University]{Clemson University}
+\date{April 16, 2025}
+
+\begin{document}
+
+\maketitle
+
+\begin{frame}{Introduction}
+    This presentation is based on three books, namely "Topics in functional analysis and applications" by Srinivasan Kesavan\cite{kesavan}, "Introductory functional analysis with applications" by Erwin Kreyszig\cite{kreyszig}, and "Semigroups of linear operators and applications to partial differential equations" by Amnon Pazy\cite{pazy}.
+\end{frame}
+
+\begin{frame}{Preliminary Material}
+    \begin{define}
+        \begin{itemize}
+            \item A linear operator $A:D(A)\subseteq X\to Y$ is said to be \textbf{bounded} if there exists a $C>0$ such that
+            \begin{align*}
+                ||Au||_Y\leq C||u||_X,\quad \text{for every } u\in D(A)
+            \end{align*}
+            Otherwise it is said to be \textbf{unbounded}.
+            \pause
+            \item A linear operator $A:D(A)\subseteq X\to Y$ is said to be \textbf{densely defined} if $\overline{D(A)}=X$
+            \pause
+            \item A linear operator $A:D(A)\subseteq X\to Y$ is said to be \textbf{closed} if the \textbf{graph}
+            \begin{align*}
+                G(A)=\set{(u,Au)}{u\in D(A)}\subseteq X\times Y
+            \end{align*}
+            is closed as a subspace of $X\times Y$
+        \end{itemize}
+    \end{define}
+\end{frame}
+
+\begin{frame}{Preliminary Material}
+    \begin{define}\
+        Let $X$ be a Banach space with dual space $X'$. Denote $x'\in X'$ at $x\in X$ by $\langle x',x\rangle$ or $\langle x,x'\rangle$. Define the following set $F(x)\subseteq X'$ as
+        \begin{align*}
+            F(x)=\set{x'}{\langle x',x\rangle=||x||^2=||x'||^2}
+        \end{align*}
+        (This set is non-empty by the Hahn-Banach theorem.)
+    \end{define}
+    \pause
+    \begin{define}[Dissipativity]\
+        A linear operator $A$ is dissipative if for every $x\in D(A)$ there is a $x'\in F(x)$ such that $Re\langle Ax,x'\rangle\leq 0$
+    \end{define}
+    \pause
+    \begin{define}[Maximal Dissipativity]\
+        A linear operator $A$ is called maximally dissipative if it is dissipative and $R(I-A)=X$.
+    \end{define}
+\end{frame}
+
+\begin{frame}{Preliminary Material}
+        \begin{define}
+        Let $X\neq \{0\}$ be a complex normed space and $A:D(A)\subseteq X\to X$ be a linear operator. With $A$ we associate the operator
+        \begin{align*}
+            A_\lambda =\lambda I-A
+        \end{align*}
+        where $\lambda$ is a complex number and $I$ is the identity operator on $D(A)$. If $A_\lambda$ has an inverse, we denote it by $R_\lambda (A)$ and call it the \textit{resolvent operator} of $A$ or, simply, the \textbf{resolvent} of $A$. If it is clear which operator we are discussing, we will write $R_\lambda$.
+    \end{define}
+\end{frame}
+
+\begin{frame}{Preliminary Material}
+    \begin{define}
+        Let $X\neq \{0\}$ be a complex normed space and $A:D(A)\subseteq X\to X$ be a linear operator. A \textit{regular value} $\lambda$ of $A$ is a complex number such that
+        \begin{itemize}
+            \item $R_\lambda$ exists,\\
+            \item $R_\lambda$ is bounded,\\
+            \item $R_\lambda$ is densely defined.
+        \end{itemize}
+        The \textit{resolvent set} $\rho(A)$ of $A$ is the set of all regular values $\lambda$ of $A$. Its complement $\sigma (A)=\mathbb{C}\backslash\rho(A)$ in the complex plane $\mathbb{C}$ is called the \textit{spectrum} of $A$, and a $\lambda \in \sigma (A)$ is called a \textit{spectral value} of $A$.
+    \end{define}
+\end{frame}
+
+\begin{frame}{Motivation}
+    \begin{define}
+        Recall the limit definition of the derivative
+        \begin{align*}
+            u_t=\lim_{h\downarrow 0}\frac{u(t+h)-u(t)}{h}
+        \end{align*}     
+    \end{define}
+    \pause
+    \begin{ex}
+        Consider the following linear first order ODE
+        \begin{align*}
+            \begin{cases}
+                u_t=-\alpha u \quad t>0,\: \alpha \in \R\\
+                u(0)=u_0
+            \end{cases}
+        \end{align*}
+    \end{ex}
+\end{frame}
+
+\begin{frame}{Motivation}
+    \begin{lemma}
+        $\log(1+x)=x\quad \text{as} \quad x\downarrow 0$\\
+    \end{lemma}
+    \pause
+    \begin{pf}
+        Let $y=\log(1+x)$.\\
+        Note $y\to 0$ as $x\to 0$\\
+        Thus,
+        \begin{align*}
+            1+x&=e^y\\
+            &=1+y+o(y)\\
+            &\to 1+y
+        \end{align*}
+    \end{pf}
+    Now let's get back to the example
+\end{frame}
+
+\begin{frame}{Motivation}
+    \begin{ex}[Continued]
+        \begin{align*}
+            -\alpha&=\frac{u_t}{u}\\
+            \uncover<2->{&=\frac{1}{u(t)}\lim_{h\downarrow 0}\frac{u(t+h)-u(t)}{h}\\}
+            \uncover<3->{&=\lim_{h\downarrow 0}\frac{1}{h}\log\bigg |1+\frac{u(t+h)-u(t)}{u(t)}\bigg|\\}
+            \uncover<4->{&=\lim_{h\downarrow 0}\frac{1}{h}\log\bigg |\frac{u(t+h)}{u(t)}\bigg|\\}
+            \uncover<5->{&=\lim_{h\downarrow 0}\frac{\log|u(t+h)|-\log|u(t)|}{h}\\}
+            \uncover<6->{&=\frac{d}{dt}\log|u(t)|}
+        \end{align*}
+        \pause\pause\pause\pause\pause\pause
+        Therefore $u(t)=u_0e^{-\alpha t}$
+    \end{ex}
+\end{frame}
+
+\begin{frame}{$C_0$ Semigroup Definition}
+    How can we generalize this idea?
+    \begin{define}[$C_0$ Semigroups]
+        Let $X$ be a Banach space and $\{S(t)\}_{t\geq 0}$ be a family of bounded linear operators on $X$. $\{S(t)\}_{t\geq 0}$ is said to be a $C_0$ semigroup if the following are true:
+        \begin{itemize}
+            \pause
+            \item $S(0)=I$, the identity of $X$\\
+            \pause
+            \item $S(t+s)=S(t)S(s)$, for all $t,s\geq 0$\\
+            \pause
+            \item For every $u\in X$
+                \begin{align*}
+                    S(t)u\to u \quad \text{as } t\downarrow 0
+                \end{align*}
+        \end{itemize}
+    \end{define}
+\end{frame}
+
+\begin{frame}{$C_0$ Semigroup Definition}
+    \begin{define}
+        Let $\{S(t)\}_{t\geq 0}$ be a $C_0$ semigroup on $X$. The \textbf{infinitesimal generator} of the semigroup is a linear operator $A$ given by
+        \begin{align*}
+            D(A)&=\bigg \{u\in X\:|\: \lim_{t\downarrow0} \frac{S(t)u-u}{t} \:\text{exists}\bigg \}\\
+            Au&=\lim_{t\downarrow0} \frac{S(t)u-u}{t},\: u\in D(A)
+        \end{align*}
+    \end{define}
+\end{frame}
+
+\begin{frame}{Some $C_0$ Semigroup Properties}
+    What are some properties of these semigroups?
+    \pause
+    \begin{thrm}
+        Let $\{S(t)\}_{t\geq 0}$ be a $C_0$-semigroup on $X$. Then there exists $M\geq 1$ and $\omega$ such that
+        \begin{align*}
+            ||S(t)||\leq Me^{\omega t},\quad \text{for all } t\geq 0
+        \end{align*}
+    \end{thrm}
+    \pause
+    This is a direct result of the Uniform Boundedness Principle. Thus we have the following definition.
+    \pause
+    \begin{define}
+        If $M=1$ and $\omega = 0$, so that $||S(t)||\leq 1$ for all $t\geq 0$, we say that $\{S(t)\}$ is a \textbf{contraction semigroup}.
+    \end{define}
+\end{frame}
+
+\begin{frame}{Applications of $C_0$ Semigroups}
+    How does this help us?
+    \pause
+    \begin{thrm}
+        Let $\{S(t)\}_{t\geq 0}$ be a $C_0$ semigroup and let $A$ be its infinitesimal generator. Let $u\in D(A)$. Then
+        \begin{align*}
+            S(t)u\in C^1([0,\infty);X)\cap C([0,\infty);X)
+        \end{align*}
+        and
+        \begin{align*}
+            \frac{d}{dt}(S(t)u)=AS(t)u=S(t)Au
+        \end{align*}
+    \end{thrm}
+\end{frame}
+
+\begin{frame}{Applications of $C_0$ Semigroups}
+    \begin{pf}
+        Let $u\in D(A)$. Then
+        \begin{align*}
+            \uncover<2->{AS(t)u=\lim_{h\downarrow 0}\bigg (\frac{S(h)-I}{h}\bigg )S(t)u&=\lim_{h\downarrow 0}S(t)\bigg (\frac{S(h)-I}{h}\bigg )=S(t)Au\\}
+            \uncover<3->{AS(t)u=S(t)&Au=D^+S(t)u.}
+        \end{align*}
+        \pause\pause\pause
+        Next consider
+        \begin{align*}
+            \frac{S(t)u-S(t-h)u}{h}=S(t-h)\frac{S(h)u-u}{h}
+        \end{align*}
+        \pause
+        \begin{align*}
+            \frac{S(t)u-S(t-h)u}{h}-S(t)Au=S(t-h)\bigg (\frac{S(h)u-u}{h}-Au\bigg )\\+(S(t-h)-S(t))Au
+        \end{align*}
+    \end{pf}
+\end{frame}
+
+\begin{frame}
+    \begin{pf}[Proof Continued]
+        \begin{align*}
+            \bigg |\bigg |S(t-h)\bigg (\frac{S(h)u-u}{h}-Au\bigg )\bigg |\bigg |&\leq Me^{\omega t}\bigg |\bigg |\frac{S(h)u-u}{h}-Au\bigg |\bigg |\\
+            \uncover<2->{&\to 0 \quad \text{as}\:h\downarrow 0\\}
+            \uncover<3->{||(S(t-h)-S(t))Au||&\to 0\quad \text{as}\:h\downarrow 0}
+        \end{align*}
+        \pause\pause\pause
+        Thus,
+        \begin{align*}
+            D^-S(t)u=S(t)Au=D^+S(t)u
+        \end{align*}
+        \pause
+        and
+        \begin{align*}
+            \frac{d}{dt}(S(t)u)=AS(t)u=S(t)Au
+        \end{align*}
+        \pause
+        Similarly, by the boundedness of $S(t)$, the map $t\mapsto S(t)Au$ is continuous so $S(t)u\in C^1([0,\infty);X)$.
+    \end{pf}
+\end{frame}
+
+\begin{frame}{Applications of $C_0$ Semigroups}
+    What does that tell us?
+    \pause
+    \begin{nte}
+        If $A$ is the infinitesimal generator of a $C_0$ semigroup $\{S(t)\}$ then we know by the above theorem that
+        \begin{align*}
+            u(t)=S(t)u_0
+        \end{align*}
+        defines the unique solution of the initial value problem
+        \begin{align*}
+            \begin{cases}
+            \frac{du(t)}{dt}&=Au(t),\:t\geq 0\\
+            u(0)&=u_0
+            \end{cases}
+        \end{align*}
+    \end{nte}
+\end{frame}
+
+\begin{frame}{Hille-Yosida Theorem}
+    When can we guarantee that an operator is an infinitesimal generator of a contraction semigroup?
+    \pause
+    \begin{thrm}
+        A linear unbounded operator $A$ on a Banach space $X$ is the infinitesimal generator of a contraction semigroup if and only if
+        \begin{itemize}
+            \pause
+            \item $A$ is closed\\
+            \pause
+            \item $A$ is densely defined\\
+            \pause
+            \item For every $\lambda>0,\: R_\lambda(A)$ is a bounded linear operator and
+            \begin{align*}
+                ||R_\lambda(A)||\leq \frac{1}{\lambda}
+            \end{align*}
+        \end{itemize}
+    \end{thrm}
+    \pause
+    This is a more general result and will not be shown.
+\end{frame}
+
+\begin{frame}{Lumer-Phillips}
+    In Hilbert spaces it might be easier to use the following theorem.
+    \pause
+    \begin{thrm}
+        \begin{itemize}
+            \item If $A$ is dissipative and there is a $\lambda _0 >0$ such that $R(A_{\lambda _0})=X$, then $A$ is the infinitesimal generator of a $C_0$ semigroup of contractions on $X$.
+            \item If $A$ is the infinitesimal generator of a $C_0$ semigroup of contractions on $X$ then $R(A_{\lambda})=X$ for all $\lambda >0$ and A is dissipative.
+        \end{itemize}
+    \end{thrm}
+\end{frame}
+
+\begin{frame}{Lumer-Phillips}
+    \begin{pf}
+        Let $\lambda >0$, the dissipativeness of $A$ implies that
+        \begin{align*}
+            ||A_\lambda x||=||\lambda x-Ax||\geq \lambda ||x||\quad \text{for every }\lambda >0 \text{ and } x\in D(A).
+        \end{align*}
+        Since $R(A_{\lambda _0})=X$, it follows when $\lambda=\lambda_0$ that $R_{\lambda_0}$ is a bounded linear operator and thus closed. This implies $A$ is closed. If $R(A_{\lambda})=X$ for every $\lambda>0$ then $\rho(A)\supseteq (0,\infty)$ and $||R_\lambda||\leq \lambda^{-1}$. It follows by the Hille-Yosida theorem that $A$ is the infinitesimal generator of a $C_0$ semigroup of contractions on $X$.\\
+        \pause
+        Consider the set
+        \begin{align*}
+            \Lambda=\set{\lambda}{0<\lambda<\infty,\:R(A_{\lambda})=X}.
+        \end{align*} 
+        Let $\lambda \in \Lambda$. By the previous inequality, $\lambda\in\rho(A)$. Since $\rho(A)$ is open, the intersection of $B_r(\lambda)\cap\R\subseteq \Lambda$ and thus $\Lambda$ is open.\\
+    \end{pf}
+\end{frame}
+
+\begin{frame}
+    \begin{pf}[Proof Continued]
+        On the other hand, let $\{\lambda_n\}\subseteq\Lambda$ and $\lambda_n\to\lambda>0$. For every $y\in X$ there exists an $x_n\in D(A)$ such that
+        \begin{align*}
+            A_\lambda x_n=\lambda_n x_n -Ax_n=y
+        \end{align*}
+        \pause
+        From the inequality it follows that $||x_n||\leq \lambda_n^{-1}||y||\leq C$ for some $C>0$. Now,
+        \begin{align*}
+            \lambda_m||x_n-x_m||&\leq ||\lambda_m(x_n-x_m)-A(x_n-x_m)||\\
+            &=|\lambda_n-\lambda_m|\:||x_n||\\
+            &\leq C|\lambda_n-\lambda_m|\to 0
+        \end{align*}
+        We see $\{x_n\}$ is Cauchy. Let $x_n\to x$. It follows $Ax_n\to \lambda x-y$. Since $A$ is closed, $x\in D(A)$ and $A_\lambda x=y$. Thus $R(A_{\lambda})=X$ and $\lambda\in\Lambda$ which implies that $\Lambda$ is closed. \pause By assumption, $\Lambda\neq \emptyset$, therefore $\Lambda=(0,\infty)$\\
+    \end{pf}
+\end{frame}
+
+\begin{frame}
+    \begin{pf}[Proof Continued]
+        If $A$ is the infinitesimal generator of a $C_0$ semigroup of contractions, $S(t)$, on $X$, then by the Hille-Yosida theorem $\rho(A)\supseteq (0,\infty)$ and therefore $R(A_{\lambda})=X$ for all $\lambda>0$.\pause \:Furthermore if $x\in D(A),\: x'\in F(x)$ then
+        \begin{align*}
+            |\langle S(t)x,x'\rangle|\leq ||S(t)x||\:||x'||\leq ||x||^2
+        \end{align*}
+        \pause
+        and therefore,
+        \begin{align*}
+            Re\langle S(t)x-x,x'\rangle=Re\langle S(t)x,x'\rangle-||x||^2\leq 0.
+        \end{align*}
+        By dividing the previous line by $t>0$ and letting $t\downarrow 0$ yields
+        \begin{align*}
+            Re\langle Ax,x'\rangle\leq 0.
+        \end{align*}
+    \end{pf}
+\end{frame}
+    
+\begin{frame}{Lumer-Phillips}
+    By using our definition of maximally dissipative operators we can rewrite the Lumer-Phillips theorem as follows
+    \pause
+    \begin{thrm}
+        A densely defined operator $A$ is the infinitesimal generator of a $C_0$ semigroup of contractions if and only if it is maximal dissipative.
+    \end{thrm}
+\end{frame}
+
+\begin{frame}{Bibliography}
+    \printbibliography[heading=none]
+\end{frame}
+
+\end{document}
